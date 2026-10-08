@@ -1,0 +1,3 @@
+# Anthropic API 与 Claude 网页；不将共享统计/CDN 后缀全部绑定 Claude。
+DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,claude.ai

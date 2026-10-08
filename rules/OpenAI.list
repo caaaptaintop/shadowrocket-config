@@ -1,0 +1,9 @@
+# 维护明确的 OpenAI 核心域名；共享服务通过通用代理规则处理。
+# 来源：OpenAI 官方网络建议；chatgpt.livekit.cloud 沿用已核对的上游规则。
+DOMAIN-SUFFIX,openai.com
+DOMAIN-SUFFIX,chatgpt.com
+DOMAIN-SUFFIX,oaistatic.com
+DOMAIN-SUFFIX,oaiusercontent.com
+DOMAIN-SUFFIX,oaistatsig.com
+DOMAIN-SUFFIX,openaimerge.com
+DOMAIN-SUFFIX,chatgpt.livekit.cloud

@@ -1,0 +1,21 @@
+# 已从现用配置核对的直连例外；顺序优先于全部上游规则。
+DOMAIN-SUFFIX,proma.cool
+DOMAIN,api.qrserver.com
+DOMAIN-SUFFIX,wps.cn
+DOMAIN-SUFFIX,kdocs.cn
+DOMAIN-SUFFIX,wpscdn.cn
+DOMAIN-SUFFIX,wps.com
+DOMAIN-SUFFIX,wpsoffice.com
+DOMAIN-SUFFIX,ksosoft.com
+DOMAIN-SUFFIX,qwps.cn
+DOMAIN-SUFFIX,wpsdns.com
+DOMAIN-SUFFIX,wps365.cn
+DOMAIN-SUFFIX,wps365cdn.com
+DOMAIN-SUFFIX,kingsoft-office-service.com
+DOMAIN-SUFFIX,kingsoft.com
+DOMAIN-SUFFIX,kingsoftcloud.com
+DOMAIN-SUFFIX,ksyun.com
+DOMAIN-SUFFIX,ksyuncdn.com
+IP-CIDR,123.249.42.199/32,no-resolve
+IP-CIDR,119.3.160.204/32,no-resolve
+DOMAIN-SUFFIX,kugou.com
