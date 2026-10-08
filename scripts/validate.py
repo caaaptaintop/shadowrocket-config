@@ -86,7 +86,7 @@ def scan_public():
                 f"{path.name} 含凭据字段")
         require(not re.search(r"(?i)(ss|ssr|vmess|vless|trojan|hysteria2?)://", text),
                 f"{path.name} 含节点 URI")
-        require(not re.search(r"(?i)\bpolicy-path\s*=", text),
+        require(not re.search(r"(?i)\b(?:policy-path|use)\s*=", text),
                 f"{path.name} 含本机订阅绑定")
 
 
