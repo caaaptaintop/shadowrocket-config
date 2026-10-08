@@ -78,7 +78,7 @@ def scan_public():
         tracked = subprocess.check_output(["git", "ls-files", "--cached", "-z"], cwd=ROOT, text=True).split("\0")
         require(not any(p.startswith("local/") or p.endswith((".db", ".zip", ".p12", ".pem", ".key"))
                         for p in tracked), "Git 中包含本机数据或证书文件")
-    files = [ROOT / "Shadowrocket.conf", *sorted((ROOT / "rules").glob("*.list"))]
+    files = [ROOT / "Shadowrocket.conf", ROOT / "Rules.conf", *sorted((ROOT / "rules").glob("*.list"))]
     for path in files:
         text = path.read_text()
         # Print only the filename and category if validation fails, never the value.
@@ -201,6 +201,12 @@ def main():
     scan_public()
     config = (ROOT / "Shadowrocket.conf").read_text()
     groups, rules, refs = inspect(config)
+    included = sections((ROOT / "Rules.conf").read_text())
+    require(set(included) == {"General", "Rule"}, "Rules.conf 不能重复定义本机分组")
+    require(included["Rule"] == sections(config)["Rule"], "Rules.conf 规则与主配置不一致，请重新生成")
+    expected_general = assignment(sections(config)["General"])
+    expected_general["update-url"] = OWN + "Rules.conf"
+    require(assignment(included["General"]) == expected_general, "Rules.conf 通用参数与主配置不一致")
     loaded, evidence = {}, []
 
     def load(ref):
