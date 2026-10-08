@@ -1,10 +1,10 @@
 # Shadowrocket 配置
 
-状态：**发布接入中，用户已确认本地预览。** 创建日期：2026-10-08。
+状态：**已发布，并于 2026-10-08 在现有设备启用。**
 
 自己的 GitHub 仓库保存主配置和自定义规则，通用规则直接引用 blackmatrix7 的 Shadowrocket 格式。节点订阅仍在 SR 首页管理。
 
-## 配置预览
+## 当前分流
 
 | 流量 | 默认策略 | 维护位置 |
 | --- | --- | --- |
@@ -24,35 +24,42 @@ Apple 的默认代理策略沿用现有设置。全部分组使用手动选择�
 
 ## 仓库与导入
 
-发布目标：`caaaptaintop/shadowrocket-config`，公开，仅保存无凭据的配置和规则。
+仓库：[caaaptaintop/shadowrocket-config](https://github.com/caaaptaintop/shadowrocket-config)，公开，仅保存无凭据的配置和规则。
 
-发布后主配置地址为：
+换设备使用的完整主配置地址：
 
 ```text
 https://raw.githubusercontent.com/caaaptaintop/shadowrocket-config/main/Shadowrocket.conf
 ```
 
-主配置地址由发布流程核验后导入，接入结果见 `docs/当前状态.md`。
+现有设备正在使用 **`本机专用.conf`**，它保存 24 个交互分组、原来的五个地区组订阅绑定、具体节点选择和三条 Hosts 映射；通过 `include = Rules.conf` 加载公共规则。这份本机文件和一致性配置快照只在本机保存，不提交 GitHub。
 
-正式接入由 Codex 在预览确认后执行：发布并核验 Raw 内容；在 SR 中添加远程主配置；核对地区组和默认节点；导入本机附加配置后启用；测试指定域名策略与实际联网。
+SR 中的 **`Rules.conf`** 来自以下地址。它只包含通用设置和规则，不含分组，用于避免更新时同名分组覆盖本机选择；请通过本机入口使用它。
 
-现有设备还需要 `local/本机专用.conf`：它包含主配置，保留原来的五个地区组订阅绑定、具体节点选择和三条 Hosts 映射。此文件和一致性配置快照只在本机保存，不提交 GitHub。SR 主配置名称须为 `Shadowrocket.conf`，附加配置通过 `include = Shadowrocket.conf` 引用它。真实包含配置行为待 SR 导入验证。
+```text
+https://raw.githubusercontent.com/caaaptaintop/shadowrocket-config/main/Rules.conf
+```
+
+已经实测：更新 `Rules.conf` 后重新使用 `本机专用.conf`，五个地区原节点选择、三个 AI 的美国出口和三条 Hosts 均保留。单独启用完整主配置时使用其默认分组，不会带回本机附加信息。
 
 换设备可直接恢复 GitHub 上的主配置和自定义规则，再添加节点订阅。具体节点选择、Hosts 和应用设置属于本机附加信息，不能仅靠公开仓库恢复。
 
 ## 日常维护与更新
 
-1. 长期调整先修改本仓库主配置或规则文件，验证后提交 GitHub。
-2. SR 的“更新配置”从自己的 GitHub 拉取主配置；SR 的使用/编译配置功能可重新拉取远程规则集。
-3. 主配置更新不会改写 GitHub 中的自定义规则；上游通用规则由上游维护，通过规则集引用拉取，不需要 Fork 整个规则仓库。
-4. SR 界面临时修改不会自动上传 GitHub。需要长期保留时，先导出、回写并提交，再更新 SR，否则远程配置会覆盖本地修改。
+日常只需记住：**节点在首页更新；规则更新 `Rules.conf`，然后使用 `本机专用.conf`。**
+
+1. 长期增加直连或 AI 规则，修改 `rules/` 下对应文件并提交 GitHub；通用规则直接引用上游，个人规则放在它们之前，不需要 Fork 上游仓库。
+2. 修改通用设置或主配置中的规则引用后，运行 `python3 scripts/build_rules.py` 生成配套 `Rules.conf`，验证后一起提交。
+3. 当前设备更新：在 SR 配置页点 `Rules.conf` → **更新**；再点 `本机专用.conf` → **使用配置**。本机入口没有公共更新地址，避免用公共文件覆盖本机分组和 Hosts。
+4. 分组结构需要长期修改时，同时修改主配置和本机入口，并保留原订阅绑定及选择。SR 界面修改不会自动上传 GitHub；公开配置或规则文件中的长期改动需要回写仓库。
 5. 自定义直连与 AI 规则位于上游规则之前。模块规则会优先于主配置，不启用大范围 DIRECT/PROXY 模块覆盖这些分组。
 
-仓库 CI 只在提交或 PR 时运行静态检查，没有定时同步任务。SR 原生后台更新的设置和实际运行均待接入阶段核验；目前不能称自动更新已运行。
+仓库 CI 在提交或 PR 时检查配置，没有定时同步任务。现有 SR 的“打开应用时更新订阅”和“自动更新订阅”设置均已开启；后台实际触发及无人值守规则更新尚未验证。
 
 ## 验证
 
 ```bash
+python3 scripts/build_rules.py
 python3 scripts/validate.py
 python3 scripts/validate.py --online
 ```
