@@ -14,11 +14,14 @@
 | Gemini 网页 / API / AI Studio | Gemini → US，手动选择 | rules/Gemini.list |
 | YouTube、微软服务 | 各自分组 → US | 上游专项规则 |
 | Bilibili、国内 Steam CDN | DIRECT | 上游专项规则 |
-| GitHub、Google、其他媒体、Apple | 各自分组 → Proxies → US | 上游专项规则 |
+| Apple / iCloud / App Store / 系统更新 | Apple → DIRECT，手动选择 | 上游 Apple 规则 |
+| GitHub、Google、其他媒体 | 各自分组 → Proxies → US | 上游专项规则 |
 | 国内服务 / 中国 IP | DIRECT | China 域名及规则集 / GEOIP |
 | 其余流量 | Final → Proxies → US | 主配置兜底 |
 
-Apple 的默认代理策略沿用现有设置。全部分组使用手动选择；三个 AI 服务可分别调整出口。
+Apple 默认直连；需要代理的具体服务可另行分流。全部分组使用手动选择；三个 AI 服务可分别调整出口。
+
+2026-10-09 调整：Apple 默认直连已经在本机应用并核验，主配置同步使用同一默认值。
 
 保留现用配置全部 13 项 General 参数，包括 DNS、IPv6 关闭、局域网旁路和 UDP 不支持时拒绝；端口、系统代理和订阅在应用内管理。
 
